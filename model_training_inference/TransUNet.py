@@ -148,14 +148,6 @@ class TransUnet(nn.Module):
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    transunet = TransUnet(img_dim=256,
-                          in_channels=5,
-                          out_channels=128,
-                          head_num=4,
-                          mlp_dim=512,
-                          block_num=8,
-                          patch_dim=16,
-                          class_num=4,).to(device)
     model = TransUnet(img_dim=256,
                           in_channels=5,
                           out_channels=128,
@@ -166,5 +158,5 @@ if __name__ == "__main__":
                           class_num=4,)
     print(model)
     x = torch.randn(4, 5, 256, 256).to(device)
-    pred = transunet(x)
+    pred = model(x)
     print(pred.shape)
