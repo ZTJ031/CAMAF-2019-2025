@@ -88,7 +88,7 @@ if __name__ == "__main__":
     num_workers     = 4
 
     # 固定比例：每个 batch 中 S-fra patch 数量占比
-    # 当前 batch_size=12 -> 2 张 sfra + 10 张 other
+    # 当前 batch_size=12 -> 7 张 sfra + 5 张 other
     ratio_sfra      = 7 / 12
 
     # ---------------- 环境 & 模型 ---------------- #
