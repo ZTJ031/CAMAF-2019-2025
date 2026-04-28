@@ -1,1 +1,178 @@
+# =====================================================
+# Configuration file for CAMAF-2019-2025
+# TransUNet training and sliding-window inference
+# =====================================================
 
+project:
+  name: CAMAF-2019-2025
+  description: China Annual Marine Aquaculture Facility Dataset from 2019 to 2025
+  task: semantic_segmentation
+  random_seed: 11
+
+# -----------------------------------------------------
+# Class definition
+# -----------------------------------------------------
+classes:
+  num_classes: 4
+  background: 0
+  northern_rafts: 1
+  cages: 2
+  southern_rafts: 3
+
+class_names:
+  0: Background
+  1: N-fra
+  2: CA
+  3: S-fra
+
+# -----------------------------------------------------
+# Input feature settings
+# -----------------------------------------------------
+input:
+  image_size: 256
+  input_channels: 6
+  selected_bands:
+    - B2
+    - B3
+    - B4
+    - B8
+    - NDWI
+    - VV
+  source_feature_stack: 18-band candidate feature image exported from GEE
+  data_type: uint8
+  normalization: 0-255 min-max normalization
+
+# -----------------------------------------------------
+# Data paths
+# Users should modify these paths according to their local environment.
+# -----------------------------------------------------
+data:
+  train_sfra_list: ./splits/train_sfra.txt
+  train_other_list: ./splits/train_other.txt
+  val_list: ./splits/val.txt
+  test_list: ./splits/test.txt
+
+  image_dir: /path/to/image_patches/
+  label_dir: /path/to/label_masks/
+
+  annual_feature_dir: /path/to/annual_six_channel_feature_images/
+  output_raster_dir: /path/to/prediction_outputs/
+
+# -----------------------------------------------------
+# Data split and augmentation
+# -----------------------------------------------------
+sample_preparation:
+  patch_size: 256
+  split_ratio:
+    train: 0.8
+    validation: 0.1
+    test: 0.1
+  augmentation:
+    horizontal_flip: true
+    vertical_flip: true
+    rotation_90: true
+
+# -----------------------------------------------------
+# Dynamic mixing strategy
+# -----------------------------------------------------
+dynamic_mixing:
+  enabled: true
+  total_batch_size: 12
+  sfra_batch_size: 7
+  other_batch_size: 5
+  sfra_list: train_sfra.txt
+  other_list: train_other.txt
+
+# -----------------------------------------------------
+# Model settings
+# -----------------------------------------------------
+model:
+  name: TransUNet
+  input_channels: 6
+  num_classes: 4
+  image_size: 256
+  patch_size: 16
+  output_channels: 128
+  num_attention_heads: 4
+  mlp_dim: 512
+  num_transformer_blocks: 8
+  pretrained_weights: null
+  train_from_scratch: true
+  freeze_backbone: false
+
+# -----------------------------------------------------
+# Training settings
+# -----------------------------------------------------
+training:
+  framework: PyTorch
+  python_version: "3.10"
+  epochs: 70
+  batch_size: 12
+  optimizer: Adam
+  beta1: 0.9
+  beta2: 0.999
+  weight_decay: 0.0
+
+  initial_lr_parameter: 8.0e-5
+  min_lr_parameter: 8.0e-7
+  effective_initial_lr: 1.0e-4
+  effective_min_lr: 1.0e-6
+
+  lr_scheduler: cosine_decay
+  class_weights:
+    background: 1.0
+    northern_rafts: 1.0
+    cages: 1.0
+    southern_rafts: 1.0
+
+  dice_loss: false
+  focal_loss: false
+
+  eval_interval_epochs: 5
+  save_interval_epochs: 5
+
+  distributed_training: false
+  synchronized_batch_norm: false
+  mixed_precision: false
+
+  log_dir: ./logs/
+  checkpoint_dir: ./checkpoints/
+
+# -----------------------------------------------------
+# Inference settings
+# -----------------------------------------------------
+inference:
+  years:
+    - 2019
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+    - 2025
+
+  tile_size: 256
+  overlap: 64
+  stride: 192
+  padding_edge_tiles: true
+
+  merge_method: average_class_scores
+  final_label_rule: argmax
+  confidence_threshold: null
+
+  output_dtype: uint8
+  nodata_value: 255
+
+# -----------------------------------------------------
+# Hardware and environment
+# -----------------------------------------------------
+hardware:
+  gpu: NVIDIA GeForce RTX 3080
+  gpu_memory: 10 GB
+  cpu: Intel Core i7-12700K
+  ram: 64 GB
+
+environment:
+  python: "3.10"
+  pytorch: "2.0.2"
+  torchvision: true
