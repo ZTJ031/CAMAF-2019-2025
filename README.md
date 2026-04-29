@@ -26,7 +26,7 @@ The released vector dataset is available from Figshare:
 CAMAF-2019-2025/
 ├── gee_preprocessing/
 │   ├── README.md
-│   └── gee_18band_feature_export.js
+│   └── gee_preprocessing.js
 ├── model_training_inference/
 │   ├── README.md
 │   ├── config.yaml
