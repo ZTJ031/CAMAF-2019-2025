@@ -22,6 +22,7 @@ The released vector dataset is available from Figshare:
 
 ## Repository structure
 
+```text
 CAMAF-2019-2025/
 ├── gee_preprocessing/
 │   ├── README.md
@@ -36,6 +37,7 @@ CAMAF-2019-2025/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
+```
 
 ## Workflow
 
