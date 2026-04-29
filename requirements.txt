@@ -1,1 +1,12 @@
-
+numpy
+torch
+torchvision
+rasterio
+geopandas
+scipy
+scikit-image
+tqdm
+opencv-python
+Pillow
+matplotlib
+pyyaml
