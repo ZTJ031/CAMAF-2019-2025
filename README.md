@@ -121,6 +121,6 @@ This code is released under the MIT License.
 
 If you use this code or the CAMAF-2019-2025 dataset, please cite the associated Data Descriptor and the Figshare data record.
 
-[insert manuscript citation after publication]
+The formal manuscript citation will be added after publication.
 
-[insert Figshare DOI]
+Dataset DOI: [insert Figshare DOI]
