@@ -18,7 +18,7 @@ The dataset includes three aquaculture facility classes:
 
 The released vector dataset is available from Figshare:
 
-[insert Figshare DOI]
+https://doi.org/10.6084/m9.figshare.32124859
 
 ## Repository structure
 
@@ -123,4 +123,4 @@ If you use this code or the CAMAF-2019-2025 dataset, please cite the associated 
 
 The formal manuscript citation will be added after publication.
 
-Dataset DOI: [insert Figshare DOI]
+Dataset DOI:https://doi.org/10.6084/m9.figshare.32124859
